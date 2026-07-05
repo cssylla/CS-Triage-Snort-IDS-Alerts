@@ -91,6 +91,19 @@ soc-triage-agent/
 └── data/
     └── snort_alerts.json # 8 sample Snort alerts
 
-Sample alerts from Snort IDS
-<img width="1897" height="883" alt="Alerts" src="https://github.com/user-attachments/assets/72f0cfc8-aed9-441d-8977-9c91805de885" />
 ```
+Sample alerts triage from Snort IDS
+<img width="1897" height="883" alt="Alerts" src="https://github.com/user-attachments/assets/72f0cfc8-aed9-441d-8977-9c91805de885" />
+
+Sample Incident summarization by alerts gathering and correlation:
+<img width="1897" height="883" alt="Incident" src="https://github.com/user-attachments/assets/df2d1206-2b88-4fd2-a4c4-19f183accccd" />
+
+Incident details (Summary, Timeline, MITRE ATT&CK mapping)
+<img width="1897" height="883" alt="image" src="https://github.com/user-attachments/assets/3660efc0-292e-41e9-b18c-e4860f988ac2" />
+
+Analytical assessment and Recommended actions:
+<img width="1906" height="357" alt="image" src="https://github.com/user-attachments/assets/706b416c-b80a-433e-9634-77dd6f5ca8cf" />
+
+
+
+
