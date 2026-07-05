@@ -1,6 +1,6 @@
 # 🛡️ SOC Triage Agent
 
-AI-powered SOC analyst for Snort IDS alerts. Paste in an alert, get back a triage in seconds — severity, attack classification, recommended action, and false positive likelihood — powered by Claude.
+AI-powered SOC analyst for Snort IDS alerts. Paste in an alert, get back a triage in seconds — severity, attack classification, recommended action, and false positive likelihood — using Anthropic model.
 
 ## Stack
 
@@ -90,4 +90,7 @@ soc-triage-agent/
 │   └── package.json
 └── data/
     └── snort_alerts.json # 8 sample Snort alerts
+
+Sample alerts from Snort IDS
+<img width="1897" height="883" alt="Alerts" src="https://github.com/user-attachments/assets/72f0cfc8-aed9-441d-8977-9c91805de885" />
 ```
