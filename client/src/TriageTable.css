@@ -1,0 +1,460 @@
+/* ── CSS Variables ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:          #0d1117;
+  --surface:     #161b22;
+  --surface2:    #21262d;
+  --border:      #30363d;
+  --text:        #e6edf3;
+  --text-muted:  #8b949e;
+  --accent:      #58a6ff;
+  --red:         #f85149;
+  --red-dim:     rgba(248, 81, 73, 0.12);
+  --yellow:      #e3b341;
+  --yellow-dim:  rgba(227, 179, 65, 0.10);
+  --green:       #3fb950;
+  --green-dim:   rgba(63, 185, 80, 0.08);
+  --purple:      #c990f7;
+  --purple-dim:  rgba(201, 144, 247, 0.12);
+}
+
+/* ── Layout ────────────────────────────────────────────────────────────────── */
+.tt-wrap {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+.tt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tt-header-left h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.tt-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.tt-model {
+  color: var(--accent);
+  font-family: monospace;
+}
+
+.tt-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tt-stat-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tt-chip {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.chip-done    { color: var(--green);  border-color: rgba(63, 185, 80, 0.3); }
+.chip-critical { color: var(--red);   border-color: rgba(248, 81, 73, 0.3); background: rgba(248,81,73,0.08); }
+
+.tt-btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.tt-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.tt-btn-primary:not(:disabled):hover { opacity: 0.85; }
+
+/* ── Error / Loading states ────────────────────────────────────────────────── */
+.tt-global-error {
+  margin: 16px 24px;
+  padding: 12px 16px;
+  background: rgba(248,81,73,0.1);
+  border: 1px solid rgba(248,81,73,0.3);
+  border-radius: 6px;
+  color: #ff9a96;
+}
+
+.tt-fetching {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+/* ── Spinner ───────────────────────────────────────────────────────────────── */
+.tt-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Table wrapper ─────────────────────────────────────────────────────────── */
+.tt-table-wrap {
+  padding: 16px 24px 40px;
+  overflow-x: auto;
+}
+
+/* ── Table ─────────────────────────────────────────────────────────────────── */
+.tt-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.tt-table thead tr {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+}
+
+.tt-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Column widths */
+.col-id    { width: 108px; }
+.col-time  { width: 88px; }
+.col-rule  { width: auto; }
+.col-proto { width: 72px; }
+.col-score { width: 120px; }
+.col-mitre { width: 220px; }
+.col-fp    { width: 72px; }
+
+/* ── Body rows ─────────────────────────────────────────────────────────────── */
+.tt-row {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+  background: transparent;
+}
+
+.tt-row:hover  { background: var(--surface2); }
+.tt-row.row-expanded { background: var(--surface2); }
+
+/* Severity colour coding — left border accent + subtle row tint */
+.tt-row.row-red    { border-left: 3px solid var(--red);    background: var(--red-dim); }
+.tt-row.row-yellow { border-left: 3px solid var(--yellow); background: var(--yellow-dim); }
+.tt-row.row-green  { border-left: 3px solid var(--green);  background: var(--green-dim); }
+
+.tt-row.row-red:hover    { background: rgba(248, 81, 73,  0.18); }
+.tt-row.row-yellow:hover { background: rgba(227, 179, 65, 0.16); }
+.tt-row.row-green:hover  { background: rgba(63,  185, 80, 0.13); }
+
+.tt-row.row-loading { opacity: 0.8; }
+
+.tt-table td {
+  padding: 10px 12px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Expand icon + ID */
+.col-id {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+/* Fix: td can't be flex — use inner wrapper */
+.tt-table td.col-id {
+  display: table-cell;
+}
+
+.tt-expand-icon {
+  color: var(--text-muted);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.alert-id-text {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mono { font-family: monospace; font-size: 12px; color: var(--text-muted); }
+
+/* Rule */
+.rule-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* Protocol badge */
+.proto-badge {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: monospace;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* Score cell */
+.score-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: monospace;
+  flex-shrink: 0;
+}
+
+.score-pill-red    { background: rgba(248,81,73,0.2);  color: var(--red);    border: 1px solid rgba(248,81,73,0.4); }
+.score-pill-yellow { background: rgba(227,179,65,0.2); color: var(--yellow); border: 1px solid rgba(227,179,65,0.4); }
+.score-pill-green  { background: rgba(63,185,80,0.15); color: var(--green);  border: 1px solid rgba(63,185,80,0.3); }
+
+.score-label-text { font-size: 11px; }
+.score-label-red    { color: var(--red); }
+.score-label-yellow { color: var(--yellow); }
+.score-label-green  { color: var(--green); }
+
+/* MITRE cell */
+.mitre-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.mitre-tactic {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--purple);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mitre-tech {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: monospace;
+}
+
+/* False positive */
+.fp-pill {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+/* Misc */
+.tt-pending  { color: var(--text-muted); }
+.tt-err-cell { color: var(--red); font-size: 11px; font-weight: 700; cursor: help; }
+
+/* ── Expanded row ──────────────────────────────────────────────────────────── */
+.tt-expanded-row {
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+}
+
+.tt-expanded-row td {
+  padding: 0;
+}
+
+.tt-expand-panel {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 900px) {
+  .tt-expand-panel { grid-template-columns: 1fr; }
+}
+
+.tt-expand-section {
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+
+.tt-expand-section:last-child { border-right: none; }
+
+.tt-expand-section.tt-pending-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.tt-expand-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.tt-expand-kv {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.tt-kv-key {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.tt-kv-val {
+  font-size: 12px;
+  color: var(--text);
+  flex: 1;
+}
+
+.tt-kv-val.mono { font-family: monospace; color: var(--accent); }
+
+.tt-kv-payload {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--red);
+  background: rgba(248,81,73,0.08);
+  border: 1px solid rgba(248,81,73,0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  word-break: break-all;
+  flex: 1;
+}
+
+/* Triage detail section */
+.triage-detail { background: rgba(88, 166, 255, 0.03); }
+
+.tt-score-chip {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.score-red    { background: var(--red-dim);    color: var(--red);    border: 1px solid rgba(248,81,73,0.3); }
+.score-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid rgba(227,179,65,0.3); }
+.score-green  { background: var(--green-dim);  color: var(--green);  border: 1px solid rgba(63,185,80,0.2); }
+
+.tt-kv-val.mitre {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--purple);
+  background: var(--purple-dim);
+  border: 1px solid rgba(201,144,247,0.25);
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.tt-fp-chip {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.tt-expand-block {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.tt-expand-label-small {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.tt-action-text {
+  font-size: 13px;
+  color: var(--yellow);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.tt-summary-text {
+  font-size: 13px;
+  color: #cdd9e5;
+  line-height: 1.7;
+  margin: 0;
+}
